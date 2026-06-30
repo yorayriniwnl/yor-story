@@ -1,0 +1,1134 @@
+/* ============================================================
+   REFLECTIONS — ON AIR BROADCAST DESIGN SYSTEM
+   Import this into app/globals.css:
+     @import './reflections-onair.css';
+   or add to globals.css directly.
+
+   Tokens defined on :root here — NOT in a CSS Module file
+   (Next's CSS Modules loader rejects bare :root selectors in module files).
+   ============================================================ */
+
+/* ── Tokens ─────────────────────────────────────────────── */
+:root {
+  --rec-red: #e63329;
+  --carrier-cyan: #00d4c8;
+  --amber: #f5a623;
+  --ash: #f2efe8;
+  --ash-dim: rgba(242, 239, 232, 0.5);
+  --bg: #0a0a0b;
+  --ambient: var(--rec-red); /* set dynamically by AmbientVignette.tsx */
+
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  /* Registered names from @fontsource-variable/* — NOT 'Fraunces' /
+     'JetBrains Mono' (those names belong to the fixed-weight packages).
+     If you switch packages, update these two lines too. */
+  --font-serif: 'Fraunces Variable', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono Variable', 'Courier New', monospace;
+}
+
+/* ── Reset for rf- namespace ─────────────────────────────── */
+.rf-root {
+  background: var(--bg);
+  color: var(--ash);
+  min-height: 100vh;
+  font-family: var(--font-serif);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Ambient background glow */
+.rf-root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 40% at 50% 30%,
+    color-mix(in srgb, var(--ambient) 12%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: background 1.2s ease;
+}
+
+/* Screen reader utility */
+.rf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── BroadcastNoise ──────────────────────────────────────── */
+.rf-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+  mix-blend-mode: overlay;
+  animation: rf-scanline-flicker 8s steps(1) infinite;
+}
+
+.rf-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px;
+  mix-blend-mode: overlay;
+}
+
+@keyframes rf-scanline-flicker {
+  0%, 95% { opacity: 1; }
+  96%, 97% { opacity: 0.7; }
+  98% { opacity: 1; }
+}
+
+/* ── SignalBoot ──────────────────────────────────────────── */
+.rf-boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.rf-boot-exit { opacity: 0; pointer-events: none; }
+
+.rf-boot-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+}
+
+.rf-boot-rec {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--rec-red);
+}
+
+.rf-boot-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rec-red);
+  animation: rf-rec-pulse 1s ease-in-out infinite;
+}
+
+.rf-boot-status {
+  font-size: 22px;
+  letter-spacing: 4px;
+  color: var(--ash);
+  font-family: var(--font-display);
+}
+
+.rf-boot-freq {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+}
+
+/* ── OnAirTicker ─────────────────────────────────────────── */
+.rf-ticker-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 11, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(230, 51, 41, 0.3);
+  display: flex;
+  align-items: center;
+  height: 36px;
+  overflow: hidden;
+}
+
+.rf-ticker-rec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-right: 1px solid rgba(230, 51, 41, 0.3);
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.rf-rec-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--rec-red);
+}
+
+.rf-rec-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rec-red);
+  flex-shrink: 0;
+}
+
+.rf-rec-pulse { animation: rf-rec-pulse 1s ease-in-out infinite; }
+
+@keyframes rf-rec-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.rf-ticker-track-container {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.rf-ticker-track {
+  display: flex;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+}
+
+.rf-ticker-animate {
+  animation: rf-ticker-scroll 40s linear infinite;
+}
+
+@keyframes rf-ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.rf-ticker-interference {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  white-space: nowrap;
+  animation: rf-interference-in 0.1s ease;
+}
+
+@keyframes rf-interference-in {
+  0% { opacity: 0; transform: skewX(-2deg); }
+  100% { opacity: 1; transform: skewX(0); }
+}
+
+/* ── Masthead ────────────────────────────────────────────── */
+.rf-masthead {
+  position: relative;
+  z-index: 1;
+  padding: 80px 40px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.rf-masthead-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rf-masthead-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--ash-dim);
+  margin-bottom: -32px;
+}
+
+.rf-masthead-title {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 12vw, 160px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+  color: var(--ash);
+  margin: 0;
+}
+
+.rf-masthead-sub {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+  margin: 0;
+}
+
+/* ── Signal meter ────────────────────────────────────────── */
+.rf-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rf-meter-label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+}
+
+.rf-meter-count {
+  color: var(--ash);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.rf-meter-slash, .rf-meter-sep { color: rgba(242,239,232,0.2); }
+
+.rf-meter-total {
+  color: rgba(242, 239, 232, 0.35);
+  font-size: 14px;
+}
+
+.rf-meter-unit {
+  color: var(--ash-dim);
+  font-size: 9px;
+  letter-spacing: 3px;
+  margin-left: 4px;
+}
+
+.rf-meter-segments {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.rf-segment {
+  width: 16px;
+  height: 24px;
+  background: rgba(242, 239, 232, 0.07);
+  border: 1px solid rgba(242, 239, 232, 0.1);
+}
+
+.rf-segment--lit {
+  background: rgba(230, 51, 41, 0.45);
+  border-color: var(--rec-red);
+}
+
+.rf-segment--peak {
+  background: var(--rec-red);
+  border-color: var(--rec-red);
+  box-shadow: 0 0 8px var(--rec-red);
+}
+
+/* ── Chapter sections ────────────────────────────────────── */
+.rf-chapters {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rf-chapter {
+  padding: 64px 40px;
+  border-top: 1px solid rgba(242, 239, 232, 0.06);
+}
+
+.rf-chapter--red { --ch-accent: var(--rec-red); }
+.rf-chapter--cyan { --ch-accent: var(--carrier-cyan); }
+
+.rf-chapter-head {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.rf-chapter-numeral {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 10vw, 140px);
+  line-height: 1;
+  color: var(--ch-accent);
+  opacity: 0.15;
+  user-select: none;
+  flex-shrink: 0;
+  width: 120px;
+}
+
+.rf-chapter-meta {
+  padding-top: 8px;
+  flex: 1;
+}
+
+.rf-chapter-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--ch-accent);
+  margin-bottom: 8px;
+}
+
+.rf-chapter-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--ash);
+  margin: 0 0 12px;
+}
+
+.rf-chapter-sub {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--ash-dim);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 520px;
+  font-style: italic;
+}
+
+.rf-chapter-empty {
+  text-align: center;
+  padding: 48px;
+  border: 1px dashed rgba(242, 239, 232, 0.1);
+}
+
+.rf-no-signal {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: rgba(242, 239, 232, 0.2);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.rf-chapter-empty p {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(242, 239, 232, 0.2);
+  margin: 0;
+}
+
+/* ── Essay grid ──────────────────────────────────────────── */
+.rf-essay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* ── Essay card ──────────────────────────────────────────── */
+.rf-card {
+  display: block;
+  text-decoration: none;
+  background: rgba(242, 239, 232, 0.03);
+  border: 1px solid rgba(242, 239, 232, 0.08);
+  border-top: 3px solid var(--card-accent, var(--rec-red));
+  padding: 28px 24px 24px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  will-change: transform;
+}
+
+.rf-card:hover,
+.rf-card:focus-visible {
+  background: rgba(242, 239, 232, 0.06);
+  border-color: rgba(242, 239, 232, 0.15);
+  outline: none;
+}
+
+.rf-card:focus-visible {
+  outline: 2px solid var(--card-accent, var(--rec-red));
+  outline-offset: 2px;
+}
+
+.rf-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.rf-card-week {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--card-accent, var(--rec-red));
+}
+
+.rf-card-chapter {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+  text-transform: uppercase;
+}
+
+.rf-card-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ash);
+  margin: 0 0 12px;
+}
+
+/* Glitch title — pure CSS, only rendered when .rf-card--interactive is present */
+.rf-card--interactive .rf-card-title--glitch {
+  position: relative;
+}
+
+.rf-card--interactive .rf-card-title--glitch::before,
+.rf-card--interactive .rf-card-title--glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rf-card--interactive:hover .rf-card-title--glitch::before {
+  color: var(--rec-red);
+  mix-blend-mode: screen;
+  clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%);
+  transform: translateX(-2px);
+  opacity: 0.8;
+  animation: rf-glitch-r 0.3s steps(1) infinite;
+}
+
+.rf-card--interactive:hover .rf-card-title--glitch::after {
+  color: var(--carrier-cyan);
+  mix-blend-mode: screen;
+  clip-path: polygon(0 55%, 100% 55%, 100% 80%, 0 80%);
+  transform: translateX(2px);
+  opacity: 0.8;
+  animation: rf-glitch-c 0.3s steps(1) infinite 0.05s;
+}
+
+@keyframes rf-glitch-r {
+  0%, 100% { clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%); transform: translateX(-2px); }
+  33% { clip-path: polygon(0 10%, 100% 10%, 100% 30%, 0 30%); transform: translateX(-3px); }
+  66% { clip-path: polygon(0 30%, 100% 30%, 100% 55%, 0 55%); transform: translateX(-1px); }
+}
+
+@keyframes rf-glitch-c {
+  0%, 100% { clip-path: polygon(0 55%, 100% 55%, 100% 80%, 0 80%); transform: translateX(2px); }
+  33% { clip-path: polygon(0 60%, 100% 60%, 100% 85%, 0 85%); transform: translateX(3px); }
+  66% { clip-path: polygon(0 45%, 100% 45%, 100% 70%, 0 70%); transform: translateX(1px); }
+}
+
+.rf-card-excerpt {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ash-dim);
+  margin: 0 0 20px;
+  font-style: italic;
+}
+
+.rf-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(242, 239, 232, 0.3);
+}
+
+.rf-card-sep { opacity: 0.4; }
+
+.rf-card-date {
+  color: rgba(242, 239, 232, 0.35);
+}
+
+.rf-card-readtime {
+  color: rgba(242, 239, 232, 0.5);
+}
+
+/* ── Article page ────────────────────────────────────────── */
+.rf-article-root {
+  padding-top: 0;
+}
+
+.rf-article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.rf-article-ghost {
+  position: absolute;
+  left: -40px;
+  top: 60px;
+  font-family: var(--font-display);
+  font-size: clamp(200px, 25vw, 360px);
+  line-height: 1;
+  color: rgba(242, 239, 232, 0.03);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.rf-article-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 64px;
+}
+
+.rf-article-arc {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.rf-article-ch {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--card-accent, var(--rec-red));
+}
+
+.rf-article-chname {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+}
+
+.rf-article-title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ash);
+  margin: 0 0 32px;
+}
+
+.rf-article-pull {
+  border-left: 3px solid var(--card-accent, var(--rec-red));
+  margin: 0 0 28px;
+  padding: 0 0 0 20px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--ash-dim);
+  line-height: 1.6;
+}
+
+.rf-article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(242, 239, 232, 0.35);
+  margin-bottom: 20px;
+}
+
+.rf-meta-sep { opacity: 0.4; }
+
+.rf-article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rf-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+  border: 1px solid rgba(242, 239, 232, 0.12);
+  padding: 3px 8px;
+}
+
+/* Article body — prose typography */
+.rf-article-body {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--ash);
+}
+
+.rf-article-body p {
+  margin: 0 0 1.5em;
+}
+
+.rf-article-body blockquote {
+  border-left: 3px solid var(--card-accent, var(--rec-red));
+  margin: 2em 0;
+  padding: 0 0 0 24px;
+  font-style: italic;
+  color: var(--ash-dim);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.rf-article-body h2,
+.rf-article-body h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  color: var(--ash);
+  margin: 2em 0 0.75em;
+}
+
+.rf-article-body hr {
+  border: none;
+  border-top: 1px solid rgba(242, 239, 232, 0.1);
+  margin: 2.5em 0;
+}
+
+.rf-article-body a {
+  color: var(--card-accent, var(--rec-red));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Article nav ─────────────────────────────────────────── */
+.rf-article-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(242, 239, 232, 0.06);
+  padding-top: 40px;
+}
+
+.rf-nav-prev,
+.rf-nav-next {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  max-width: 45%;
+}
+
+.rf-nav-next { text-align: right; }
+
+.rf-nav-dir {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--card-accent, var(--rec-red));
+}
+
+.rf-nav-title {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  color: var(--ash-dim);
+  line-height: 1.4;
+  transition: color 0.15s;
+}
+
+.rf-nav-prev:hover .rf-nav-title,
+.rf-nav-next:hover .rf-nav-title {
+  color: var(--ash);
+}
+
+.rf-nav-prev:focus-visible,
+.rf-nav-next:focus-visible {
+  outline: 2px solid var(--card-accent, var(--rec-red));
+  outline-offset: 4px;
+}
+
+.rf-nav-back {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+  transition: color 0.15s;
+}
+
+.rf-nav-back:hover { color: var(--ash); }
+
+/* ── Email capture ───────────────────────────────────────── */
+.rf-subscribe {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 40px 80px;
+  border-top: 1px solid rgba(242, 239, 232, 0.06);
+}
+
+.rf-email-wrap {
+  max-width: 480px;
+}
+
+.rf-email-label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.03em;
+  color: var(--ash);
+  margin: 0 0 20px;
+}
+
+.rf-email-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(242, 239, 232, 0.15);
+}
+
+.rf-email-input {
+  flex: 1;
+  background: rgba(242, 239, 232, 0.04);
+  border: none;
+  color: var(--ash);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 14px 16px;
+  outline: none;
+}
+
+.rf-email-input::placeholder {
+  color: rgba(242, 239, 232, 0.25);
+}
+
+.rf-email-input:focus {
+  background: rgba(242, 239, 232, 0.07);
+}
+
+.rf-email-btn {
+  background: var(--rec-red);
+  border: none;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.rf-email-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--rec-red) 80%, #fff); }
+.rf-email-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.rf-email-btn--loading { opacity: 0.7; }
+
+.rf-email-btn:focus-visible {
+  outline: 2px solid var(--ash);
+  outline-offset: 2px;
+}
+
+.rf-email-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--carrier-cyan);
+  margin: 0;
+}
+
+.rf-email-error {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--rec-red);
+  margin: 10px 0 0;
+}
+
+/* ── Search widget ───────────────────────────────────────── */
+.rf-search-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 40px 64px;
+  border-top: 1px solid rgba(242, 239, 232, 0.06);
+}
+
+.rf-search-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.rf-search-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--ash-dim);
+}
+
+.rf-search-hint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(242, 239, 232, 0.2);
+}
+
+.rf-search-kbd {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border: 1px solid rgba(242, 239, 232, 0.2);
+  border-radius: 2px;
+  color: var(--ash-dim);
+  background: rgba(242, 239, 232, 0.04);
+}
+
+.rf-search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(242, 239, 232, 0.12);
+  background: rgba(242, 239, 232, 0.03);
+  padding: 0 16px;
+  transition: border-color 0.2s ease;
+}
+
+.rf-search-input-row:focus-within {
+  border-color: rgba(242, 239, 232, 0.3);
+}
+
+.rf-search-icon {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--rec-red);
+  flex-shrink: 0;
+}
+
+.rf-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--ash);
+  padding: 16px 0;
+  min-width: 0;
+}
+
+.rf-search-input::placeholder {
+  color: rgba(242, 239, 232, 0.2);
+}
+
+/* Override browser's default search input chrome */
+.rf-search-input::-webkit-search-cancel-button { display: none; }
+
+.rf-search-spinner {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--rec-red);
+  animation: rf-blink 0.8s step-start infinite;
+  flex-shrink: 0;
+}
+
+@keyframes rf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.rf-search-clear {
+  background: none;
+  border: none;
+  color: rgba(242, 239, 232, 0.3);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.rf-search-clear:hover { color: var(--ash); }
+
+.rf-search-error,
+.rf-search-empty {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(242, 239, 232, 0.3);
+  margin: 20px 0 0;
+}
+
+.rf-search-error { color: var(--rec-red); }
+
+.rf-search-results {
+  margin-top: 32px;
+}
+
+.rf-search-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(242, 239, 232, 0.25);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.rf-search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.rf-search-card {
+  display: block;
+  text-decoration: none;
+  border: 1px solid rgba(242, 239, 232, 0.08);
+  background: rgba(242, 239, 232, 0.02);
+  padding: 20px 24px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+  border-left: 2px solid var(--card-accent, var(--rec-red));
+}
+
+.rf-search-card:hover,
+.rf-search-card:focus-visible {
+  background: rgba(242, 239, 232, 0.05);
+  border-color: rgba(242, 239, 232, 0.14);
+  outline: none;
+}
+
+.rf-search-card:focus-visible {
+  outline: 2px solid var(--card-accent, var(--rec-red));
+  outline-offset: 2px;
+}
+
+.rf-search-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rf-search-card-week {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--card-accent, var(--rec-red));
+}
+
+.rf-search-card-chapter {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ash-dim);
+  text-transform: uppercase;
+}
+
+.rf-search-card-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ash);
+  margin: 0 0 8px;
+}
+
+.rf-search-card-excerpt {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ash-dim);
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Reduced motion — BLANKET OFF ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Kill every animation and transition in the rf- namespace.
+     JS-level useMotionAllowed() gates are the first layer;
+     this @media block is the mandatory second layer. If they disagree,
+     reduced motion wins. */
+
+  .rf-scanlines,
+  .rf-boot-overlay *,
+  .rf-ticker-animate,
+  .rf-rec-pulse,
+  .rf-ticker-interference,
+  .rf-search-spinner,
+  .rf-card--interactive .rf-card-title--glitch::before,
+  .rf-card--interactive .rf-card-title--glitch::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .rf-card--interactive .rf-card-title--glitch::before,
+  .rf-card--interactive .rf-card-title--glitch::after {
+    display: none !important;
+  }
+
+  /* Scanline flicker off, static texture stays — too cheap to bother gating */
+  .rf-scanlines { animation: none !important; opacity: 0.5; }
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .rf-masthead { padding: 48px 20px 40px; }
+  .rf-chapter { padding: 48px 20px; }
+  .rf-essay-grid { grid-template-columns: 1fr; }
+  .rf-chapter-numeral { font-size: 60px; width: 64px; }
+  .rf-chapter-head { gap: 16px; }
+  .rf-article { padding: 60px 20px 60px; }
+  .rf-article-ghost { left: -20px; font-size: 120px; }
+  .rf-article-nav { padding: 32px 20px 60px; flex-direction: column; }
+  .rf-nav-prev, .rf-nav-next { max-width: 100%; }
+  .rf-nav-next { text-align: left; }
+  .rf-subscribe { padding: 48px 20px 60px; }
+  .rf-meter-segments { flex-wrap: wrap; }
+  .rf-search-wrap { padding: 40px 20px 48px; }
+  .rf-search-grid { grid-template-columns: 1fr; }
+  .rf-search-hint { display: none; }
+}
+
+/* ── Focus states — visible for keyboard navigation ─────── */
+.rf-card:focus-visible,
+.rf-email-btn:focus-visible,
+.rf-email-input:focus-visible,
+.rf-nav-prev:focus-visible,
+.rf-nav-next:focus-visible {
+  outline: 2px solid var(--carrier-cyan);
+  outline-offset: 2px;
+}
