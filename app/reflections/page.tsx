@@ -7,12 +7,14 @@ import { EssayCard } from '../../components/reflections/EssayCard';
 import { EmailCapture } from '../../components/reflections/EmailCapture';
 import { SearchWidget } from '../../components/reflections/SearchWidget';
 
+const TOTAL_CHAPTERS = 52;
+
 export const metadata: Metadata = {
   title: 'Reflections // Yor Ayrin',
-  description: 'A 52-week personal essay project. 9 chapters. First-person, second-person-addressed, unsentimental, structurally argued.',
+  description: '52 chapters. 52 weeks. Every Friday. A personal essay project by Yor Ayrin.',
   openGraph: {
     title: 'Reflections // Yor Ayrin',
-    description: 'A 52-week personal essay project on faith, love, damage, bodies, and borders.',
+    description: '52 chapters. 52 weeks. Every Friday. Life stories, reflections, and everything in between.',
     type: 'website',
   },
 };
@@ -50,8 +52,8 @@ export default function ReflectionsPage() {
               <em>on what stays.</em>
             </h1>
             <p className="rf-hero-summary">
-              A 52-week record of faith, love, damage, bodies, and the stories
-              that survive after we stop calling them history.
+              52 chapters. 52 weeks. Every Friday.
+              Life stories, reflections, and everything in between.
             </p>
             <div className="rf-hero-actions">
               <a className="rf-button rf-button--primary" href="#archive">
@@ -74,8 +76,8 @@ export default function ReflectionsPage() {
               <span className="rf-plot-node rf-plot-node--one" />
               <span className="rf-plot-node rf-plot-node--two" />
               <span className="rf-plot-node rf-plot-node--three" />
-              <span className="rf-plot-mark">52</span>
-              <span className="rf-plot-caption">THINGS LEFT UNSAID</span>
+              <span className="rf-plot-mark">{String(all.length).padStart(2, '0')}</span>
+              <span className="rf-plot-caption">STORIES TOLD SO FAR</span>
             </div>
 
             {latest ? (
@@ -109,8 +111,8 @@ export default function ReflectionsPage() {
 
         <section className="rf-operations-strip" aria-label="Archive status">
           <div><strong>{String(all.length).padStart(2, '0')}</strong><span>PUBLIC FILES</span></div>
-          <div><strong>{String(openChapters).padStart(2, '0')}<i>/09</i></strong><span>CHAPTERS OPEN</span></div>
-          <div><strong>52</strong><span>WEEK PROGRAM</span></div>
+          <div><strong>{String(openChapters).padStart(2, '0')}<i>/{String(TOTAL_CHAPTERS).padStart(2, '0')}</i></strong><span>CHAPTERS OPEN</span></div>
+          <div><strong>{TOTAL_CHAPTERS}</strong><span>WEEK PROGRAM</span></div>
           <div><strong>{latest ? `W${String(latest.week).padStart(2, '0')}` : '--'}</strong><span>CURRENT RECORD</span></div>
         </section>
 

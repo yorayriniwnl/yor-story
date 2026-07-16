@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s // Reflections',
   },
   description:
-    'A 52-week personal essay project. 9 chapters. One transmission at a time.',
+    '52 chapters. 52 weeks. Every Friday. A personal essay project by Yor Ayrin.',
 };
 
 export default function RootLayout({

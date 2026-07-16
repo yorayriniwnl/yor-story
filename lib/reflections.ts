@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-
+import { CHAPTERS } from '../components/reflections/chapters';
 const REFLECTIONS_DIR = path.join(process.cwd(), 'content', 'reflections');
 
 export interface ReflectionFrontmatter {
@@ -60,15 +60,16 @@ function parseFile(filename: string): Reflection | null {
   const status = fm.status === 'published' ? 'published' : 'draft';
 
   // F-03: a missing or misspelled `chapter` key resolves to 0, which is
-  // outside CHAPTERS/PAGE_ORDER's 1–9 range. That essay would still parse
+  // outside the defined chapters. That essay would still parse
   // and be marked published, but every render loop that iterates chapters
-  // 1–9 would silently skip it — no error, no 404, just gone. These 52
+  // would silently skip it — no error, no 404, just gone. These
   // frontmatter blocks are hand-edited, which makes this exactly the kind
   // of typo that will eventually happen, so a published essay with a
   // bad chapter fails loudly at build/read time instead of vanishing.
-  if (status === 'published' && (chapter < 1 || chapter > 9)) {
+  const validChapters = Object.keys(CHAPTERS).map(Number);
+  if (status === 'published' && !validChapters.includes(chapter)) {
     throw new Error(
-      `[reflections] "${filename}" is published with chapter="${fm.chapter}" — must be 1–9. ` +
+      `[reflections] "${filename}" is published with chapter="${fm.chapter}" — must be one of: ${validChapters.join(', ')}. ` +
       `A wrong or missing value here silently drops the essay from every chapter section.`
     );
   }

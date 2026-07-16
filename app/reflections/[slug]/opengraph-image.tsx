@@ -10,17 +10,7 @@ export async function generateStaticParams() {
   return getPublishedSlugs().map((slug) => ({ slug }));
 }
 
-const CHAPTER_COLOR_MAP: Record<number, string> = {
-  1: '#e5232b',
-  2: '#e5232b',
-  3: '#9564ff',
-  4: '#9564ff',
-  5: '#e5232b',
-  6: '#9564ff',
-  7: '#e5232b',
-  8: '#e5232b',
-  9: '#9564ff',
-};
+
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,7 +22,7 @@ export default async function OGImage({ params }: Props) {
   if (!reflection) return new Response(null, { status: 404 });
 
   const chapter = CHAPTERS[reflection.chapter];
-  const accent = CHAPTER_COLOR_MAP[reflection.chapter] ?? CHAPTER_COLOR_MAP[1];
+  const accent = chapter?.color === 'cyan' ? '#9564ff' : '#e5232b';
   const week = String(reflection.week).padStart(2, '0');
   const titleSize = reflection.title.length > 54 ? 50 : reflection.title.length > 35 ? 59 : 68;
 
