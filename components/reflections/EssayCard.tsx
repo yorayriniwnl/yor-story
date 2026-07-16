@@ -9,6 +9,15 @@ interface EssayCardProps {
   reflection: Reflection;
 }
 
+const POSTER_VARIANTS = ['halo', 'split', 'paper', 'crown', 'diagonal'] as const;
+
+function getPosterVariant(slug: string) {
+  const seed = [...slug].reduce((total, character) => (
+    (total * 31 + character.charCodeAt(0)) % 100_000
+  ), 0);
+  return POSTER_VARIANTS[seed % POSTER_VARIANTS.length];
+}
+
 /**
  * A field-file card: literary copy is held inside a compact tactical frame,
  * rather than buried under a generic hover effect. The artwork is CSS-native
@@ -18,12 +27,14 @@ export function EssayCard({ reflection }: EssayCardProps) {
   const chapter = CHAPTERS[reflection.chapter];
   const colorVar = chapterColorVar(reflection.chapter);
   const week = String(reflection.week).padStart(2, '0');
+  const posterVariant = getPosterVariant(reflection.slug);
 
   return (
     <Link
       href={`/reflections/${reflection.slug}`}
       className="rf-card"
       data-week={week}
+      data-variant={posterVariant}
       style={{
         '--card-accent': colorVar,
         '--card-angle': `${(reflection.week % 3) - 1}deg`,

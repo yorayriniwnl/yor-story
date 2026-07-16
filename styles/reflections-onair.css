@@ -894,6 +894,7 @@ a { color: inherit; }
   border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
+  isolation: isolate;
   min-height: 430px;
   overflow: hidden;
   position: relative;
@@ -912,6 +913,20 @@ a { color: inherit; }
   z-index: 0;
 }
 
+.rf-card::after {
+  background: linear-gradient(105deg, transparent 39%, rgba(255, 255, 255, 0.2) 47%, rgba(255, 255, 255, 0.035) 53%, transparent 60%);
+  content: '';
+  height: 130%;
+  left: -85%;
+  pointer-events: none;
+  position: absolute;
+  top: -15%;
+  transform: skewX(-18deg);
+  transition: left 560ms cubic-bezier(0.16, 1, 0.3, 1);
+  width: 62%;
+  z-index: 3;
+}
+
 .rf-card > * { position: relative; z-index: 1; }
 
 .rf-card:hover {
@@ -921,6 +936,7 @@ a { color: inherit; }
 }
 
 .rf-card:hover::before { opacity: 1; }
+.rf-card:hover::after { left: 125%; }
 
 .rf-card-poster {
   background:
@@ -1038,6 +1054,151 @@ a { color: inherit; }
 .rf-card-status { align-items: center; display: inline-flex; gap: 6px; }
 .rf-card-status i { background: var(--signal-green); border-radius: 50%; box-shadow: 0 0 8px rgba(119, 207, 146, 0.75); height: 5px; width: 5px; }
 
+/* Each file gets a different cover language. This is intentionally visual,
+   not a content classification: a future essay still receives a stable cover
+   from its slug without adding presentation fields to frontmatter. */
+.rf-card[data-variant='halo'] .rf-card-poster {
+  background:
+    radial-gradient(circle at 76% 34%, color-mix(in srgb, var(--card-accent) 34%, transparent), transparent 13%),
+    radial-gradient(circle at 76% 34%, transparent 0 21%, rgba(217, 173, 93, 0.12) 21.5% 22%, transparent 22.5%),
+    linear-gradient(139deg, #221110, #110f0e 72%);
+}
+
+.rf-card[data-variant='halo'] .rf-card-crosshair {
+  box-shadow: 0 0 0 12px rgba(217, 173, 93, 0.08), 0 0 28px color-mix(in srgb, var(--card-accent) 30%, transparent);
+}
+
+.rf-card[data-variant='split'] .rf-card-poster {
+  background:
+    linear-gradient(112deg, color-mix(in srgb, var(--card-accent) 82%, #1a0a0c) 0 43%, transparent 43%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), transparent 28%),
+    #121111;
+}
+
+.rf-card[data-variant='split'] .rf-card-poster::after {
+  background: linear-gradient(180deg, var(--card-accent), color-mix(in srgb, var(--card-accent) 36%, #0b0b0a));
+  bottom: -7%;
+  clip-path: polygon(27% 0, 100% 0, 100% 100%, 0 100%);
+  height: 114%;
+  left: auto;
+  opacity: 0.66;
+  right: -1px;
+  width: 42%;
+}
+
+.rf-card[data-variant='split'] .rf-card-poster-number {
+  left: auto;
+  right: 21px;
+  text-shadow: 4px 4px 0 #110e0c;
+  transform: rotate(-7deg);
+}
+
+.rf-card[data-variant='split']:hover .rf-card-poster-number {
+  text-shadow: 7px 8px 0 #110e0c, 0 0 22px color-mix(in srgb, var(--card-accent) 34%, transparent);
+  transform: rotate(-7deg) translateX(-8px) translateY(-2px);
+}
+
+.rf-card[data-variant='split'] .rf-card-crosshair {
+  border-color: rgba(240, 232, 218, 0.78);
+  border-radius: 0;
+  height: 68px;
+  right: auto;
+  transform: rotate(45deg);
+  width: 68px;
+}
+
+.rf-card[data-variant='split']:hover .rf-card-crosshair {
+  border-color: var(--amber);
+  transform: rotate(61deg) scale(1.07);
+}
+
+.rf-card[data-variant='paper'] .rf-card-poster {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.48), transparent 31%),
+    repeating-linear-gradient(-35deg, transparent 0 14px, rgba(17, 13, 12, 0.09) 14px 15px),
+    #e8decc;
+}
+
+.rf-card[data-variant='paper'] .rf-card-poster::before { border-color: rgba(17, 13, 12, 0.3); }
+.rf-card[data-variant='paper'] .rf-card-poster::after { background: #17110f; }
+.rf-card[data-variant='paper'] .rf-card-poster-top,
+.rf-card[data-variant='paper'] .rf-card-poster-bottom { color: rgba(17, 13, 12, 0.78); }
+
+.rf-card[data-variant='paper'] .rf-card-poster-number {
+  color: #191210;
+  text-shadow: 5px 5px 0 var(--card-accent);
+}
+
+.rf-card[data-variant='paper'] .rf-card-crosshair { border-color: var(--card-accent); }
+.rf-card[data-variant='paper'] .rf-card-crosshair::before,
+.rf-card[data-variant='paper'] .rf-card-crosshair::after { background: var(--card-accent); }
+
+.rf-card[data-variant='paper'] .rf-card-stamp {
+  border-color: #191210;
+  color: #191210;
+}
+
+.rf-card[data-variant='paper'] .rf-card-status i { background: #13734f; box-shadow: 0 0 8px rgba(19, 115, 79, 0.45); }
+
+.rf-card[data-variant='crown'] .rf-card-poster {
+  background:
+    radial-gradient(circle at 69% 33%, rgba(217, 173, 93, 0.25), transparent 17%),
+    radial-gradient(circle at 69% 33%, transparent 0 26%, rgba(217, 173, 93, 0.14) 26.5% 27%, transparent 27.5%),
+    linear-gradient(134deg, #2c1015, #120f10 67%);
+}
+
+.rf-card[data-variant='crown'] .rf-card-crosshair {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 12px rgba(217, 173, 93, 0.07), 0 0 32px rgba(217, 173, 93, 0.18);
+}
+
+.rf-card[data-variant='crown'] .rf-card-stamp {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+.rf-card[data-variant='diagonal'] .rf-card-poster {
+  background:
+    linear-gradient(127deg, #100f0e 0 35%, rgba(229, 35, 43, 0.86) 35% 54%, #681827 54% 60%, #10100f 60%),
+    #121111;
+}
+
+.rf-card[data-variant='diagonal'] .rf-card-poster::after {
+  background: rgba(240, 232, 218, 0.77);
+  bottom: auto;
+  height: 1px;
+  left: 12%;
+  top: 54%;
+  transform: rotate(-19deg);
+  width: 80%;
+}
+
+.rf-card[data-variant='diagonal'] .rf-card-poster-number {
+  color: #f4e7d4;
+  left: auto;
+  right: 17px;
+  text-shadow: 5px 5px 0 #1c0c0e;
+  transform: rotate(-4deg);
+}
+
+.rf-card[data-variant='diagonal']:hover .rf-card-poster-number {
+  text-shadow: 7px 8px 0 #1c0c0e, 0 0 22px rgba(229, 35, 43, 0.48);
+  transform: rotate(-4deg) translateX(-8px) translateY(-2px);
+}
+
+.rf-card[data-variant='diagonal'] .rf-card-crosshair {
+  border-color: #f4e7d4;
+  border-radius: 0;
+  left: 24px;
+  right: auto;
+  transform: rotate(45deg) scale(0.73);
+}
+
+.rf-card[data-variant='diagonal']:hover .rf-card-crosshair {
+  border-color: var(--amber);
+  transform: rotate(62deg) scale(0.79);
+}
+
 .rf-card-copy {
   flex: 1;
   padding: 24px 23px 15px;
@@ -1080,6 +1241,11 @@ a { color: inherit; }
   color: var(--card-accent, var(--rec-red));
   margin-left: auto;
   white-space: nowrap;
+}
+
+.rf-card:hover .rf-card-read {
+  color: var(--ash);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--card-accent, var(--rec-red)) 58%, transparent);
 }
 
 .rf-card-read b { font-size: 13px; font-weight: 400; margin-right: 4px; }
@@ -1479,9 +1645,10 @@ a { color: inherit; }
   .rf-hero-title > span { font-size: clamp(62px, 17vw, 76px); }
   .rf-hero-title em { font-size: clamp(42px, 13vw, 63px); margin-left: 13px; }
   .rf-hero-summary { font-size: 17px; }
-  .rf-hero-board { min-height: 430px; padding: 12px; }
+  .rf-hero-action-note { line-height: 1.55; max-width: 230px; }
+  .rf-hero-board { box-shadow: inset 0 0 0 1px rgba(240, 232, 218, 0.045), 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 36px rgba(229, 35, 43, 0.09); min-height: 430px; padding: 12px; transform: none; }
   .rf-hero-plot { min-height: 230px; }
-  .rf-featured-file { grid-template-columns: minmax(115px, 0.7fr) 1.3fr; }
+  .rf-featured-file { grid-template-columns: minmax(0, 42fr) minmax(0, 58fr); }
   .rf-featured-file-number { font-size: 80px; }
   .rf-operations-strip { grid-template-columns: repeat(2, 1fr); }
   .rf-operations-strip > div { min-height: 95px; padding: 19px; }
