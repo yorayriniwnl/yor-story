@@ -13,11 +13,11 @@ const SITE_PROFILE = {
 
 export default function SiteFooter() {
   return (
-    <footer className="rf-footer" aria-label="Ayush Roy contact and profiles">
+    <footer className="rf-footer" aria-label="Yor Ayrin contact and profiles">
       <div className="rf-footer-grid">
         <div className="rf-footer-identity">
           <div className="rf-footer-brand" aria-hidden="true">YR.</div>
-          <p className="rf-footer-brand-label">AYUSH ROY <span>/ WRITING AS YOR AYRIN</span></p>
+          <p className="rf-footer-brand-label">YOR AYRIN <span>/ PRIVATE PRACTICE</span></p>
         </div>
 
         <section className="rf-footer-overview" aria-labelledby="footer-about">
@@ -60,7 +60,7 @@ export default function SiteFooter() {
             </a>
           </address>
           <div className="rf-footer-transmission">
-            <p className="rf-footer-freq">FREQ 52.0 MHz</p>
+            <p className="rf-footer-freq">FREQ 52.0 MHz // YOR AYRIN</p>
             <div className="rf-footer-status">
               <i aria-hidden="true" />
               <span>SIGNAL ACTIVE</span>

@@ -89,7 +89,7 @@ a { color: inherit; }
   align-items: start;
   display: grid;
   gap: clamp(28px, 3vw, 52px);
-  grid-template-columns: minmax(150px, 0.6fr) minmax(240px, 1fr) minmax(150px, 0.65fr) minmax(250px, 0.9fr);
+  grid-template-columns: minmax(120px, 0.52fr) minmax(240px, 1.22fr) minmax(130px, 0.58fr) minmax(250px, 0.9fr);
   padding: 50px 0 40px;
 }
 
@@ -183,11 +183,6 @@ a { color: inherit; }
   transform: translate(2px, -2px);
 }
 
-.rf-footer-profiles {
-  border-left: 1px solid var(--line);
-  padding-left: clamp(18px, 1.8vw, 30px);
-}
-
 .rf-footer-contact-section {
   border-left: 1px solid var(--line);
   padding-left: clamp(22px, 2.2vw, 36px);
@@ -230,12 +225,10 @@ a { color: inherit; }
 
 .rf-footer-transmission {
   align-items: center;
-  border-top: 1px solid var(--line-soft);
   display: flex;
   gap: 16px;
   justify-content: space-between;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 18px;
 }
 
 .rf-footer-freq {
@@ -2210,7 +2203,6 @@ a { color: inherit; }
   .rf-footer-grid { grid-template-columns: minmax(135px, 0.6fr) minmax(0, 1.4fr); row-gap: 38px; }
   .rf-footer-profiles,
   .rf-footer-contact-section { border-top: 1px solid var(--line); padding-top: 28px; }
-  .rf-footer-profiles,
   .rf-footer-contact-section { border-left: 0; padding-left: 0; }
 }
 
