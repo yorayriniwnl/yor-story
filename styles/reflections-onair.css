@@ -51,6 +51,165 @@ a { color: inherit; }
   outline-offset: 4px;
 }
 
+/* Screen-reader-only — used by ScrambleText */
+.rf-sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Site Footer */
+
+.rf-footer {
+  border-top: 1px solid var(--line);
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 48px 48px 56px;
+}
+
+.rf-footer-grid {
+  align-items: start;
+  display: grid;
+  gap: 42px;
+  grid-template-columns: auto 1fr auto;
+}
+
+.rf-footer-brand {
+  color: var(--rec-red);
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 0.7;
+  text-shadow: 2px 2px 0 rgba(240, 232, 218, 0.08);
+}
+
+.rf-footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rf-footer-tagline {
+  color: var(--ash-dim);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 340px;
+}
+
+.rf-footer-links {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rf-footer-links a {
+  color: var(--ash-dim);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.rf-footer-links a:hover { color: var(--amber); }
+
+.rf-footer-signal {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rf-footer-contact {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  gap: 6px;
+}
+
+.rf-footer-contact a {
+  color: var(--ash);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.rf-footer-contact a:hover { color: var(--amber); }
+
+.rf-footer-freq {
+  color: var(--ash-dim);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  margin: 0;
+}
+
+.rf-footer-status {
+  align-items: center;
+  display: flex;
+  gap: 7px;
+}
+
+.rf-footer-status i {
+  animation: rf-rec-pulse 2s ease-in-out infinite;
+  background: var(--signal-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(119, 207, 146, 0.7);
+  display: block;
+  height: 6px;
+  width: 6px;
+}
+
+.rf-footer-status span {
+  color: var(--signal-green);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.rf-footer-copy {
+  border-top: 1px solid var(--line-soft);
+  color: rgba(240, 232, 218, 0.3);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  margin-top: 32px;
+  padding-top: 20px;
+}
+
+/* ── Reading progress bar ── */
+
+.rf-progress {
+  background: rgba(240, 232, 218, 0.06);
+  height: 2px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 950;
+}
+
+.rf-progress-bar {
+  background: var(--case-accent, var(--rec-red));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--case-accent, var(--rec-red)) 50%, transparent);
+  height: 100%;
+  transition: width 100ms ease-out;
+  width: 0%;
+}
+
 .rf-root {
   isolation: isolate;
   min-height: 100vh;
@@ -1621,6 +1780,316 @@ a { color: inherit; }
   padding: 0 26px !important;
 }
 
+/* ── On Air Ticker ── */
+
+.rf-ticker-wrap {
+  align-items: center;
+  background: var(--ink-raised);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  height: 36px;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.rf-ticker-rec {
+  align-items: center;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  height: 100%;
+  padding: 0 14px;
+}
+
+.rf-rec-dot {
+  background: var(--rec-red);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(229, 35, 43, 0.7);
+  display: block;
+  height: 7px;
+  width: 7px;
+}
+
+.rf-rec-pulse { animation: rf-rec-pulse 2s ease-in-out infinite; }
+
+.rf-rec-label {
+  color: var(--rec-red);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.rf-ticker-track-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.rf-ticker-track {
+  display: flex;
+  white-space: nowrap;
+}
+
+.rf-ticker-track span {
+  color: var(--ash-dim);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding: 0 8px;
+}
+
+.rf-ticker-animate { animation: rf-ticker-scroll 45s linear infinite; }
+
+.rf-ticker-interference {
+  animation: rf-flicker 0.3s steps(2) infinite;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 0 14px;
+  text-align: center;
+  width: 100%;
+}
+
+/* ── Signal Boot Overlay ── */
+
+.rf-boot-overlay {
+  align-items: center;
+  background: var(--ink);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  transition: opacity 300ms ease, transform 300ms ease;
+  z-index: 9999;
+}
+
+.rf-boot-exit {
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.rf-boot-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rf-boot-rec-dot {
+  animation: rf-rec-pulse 1.5s ease-in-out infinite;
+  background: var(--rec-red);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(229, 35, 43, 0.8);
+  display: block;
+  height: 9px;
+  margin-bottom: 8px;
+  width: 9px;
+}
+
+.rf-boot-status {
+  color: var(--ash);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  margin: 0;
+  transition: color 200ms ease;
+}
+
+.rf-boot-status--locked { color: var(--amber); }
+
+.rf-boot-freq {
+  color: var(--ash-dim);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  margin: 0;
+}
+
+/* ── Broadcast Noise ── */
+
+.rf-scanlines {
+  animation: rf-flicker 4s ease-in-out infinite;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgba(0, 0, 0, 0.06) 2px 4px
+  );
+  inset: 0;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  pointer-events: none;
+  position: fixed;
+  z-index: 800;
+}
+
+.rf-scanlines--clear {
+  animation: none;
+  opacity: 0.18;
+}
+
+.rf-grain {
+  animation: rf-grain-drift 0.5s steps(1) infinite;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(240, 232, 218, 0.015) 2px, rgba(240, 232, 218, 0.015) 4px),
+    repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(240, 232, 218, 0.01) 3px, rgba(240, 232, 218, 0.01) 5px);
+  inset: -4px;
+  opacity: 0.5;
+  pointer-events: none;
+  position: fixed;
+  z-index: 801;
+}
+
+.rf-grain--clear { opacity: 0.2; }
+
+/* ── Chapter Nav ── */
+
+.rf-chapternav {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.rf-chapternav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rf-chapternav-item {
+  color: var(--ash-dim);
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 4px 0;
+  position: relative;
+  text-decoration: none;
+  transition: color 160ms ease, text-shadow 160ms ease, transform 160ms ease;
+}
+
+.rf-chapternav-item:hover {
+  color: var(--ash);
+  transform: scale(1.08);
+}
+
+.rf-chapternav-item--empty { opacity: 0.3; }
+
+.rf-chapternav-item--active {
+  color: var(--nav-accent, var(--rec-red));
+  text-shadow: 0 0 14px color-mix(in srgb, var(--nav-accent, var(--rec-red)) 55%, transparent);
+  transform: scale(1.12);
+}
+
+.rf-chapternav-label {
+  background: var(--ink-raised);
+  border: 1px solid var(--line);
+  color: var(--ash);
+  font-size: 8px;
+  left: auto;
+  letter-spacing: 0.11em;
+  opacity: 0;
+  padding: 5px 9px;
+  pointer-events: none;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  white-space: nowrap;
+}
+
+.rf-chapternav-item:hover .rf-chapternav-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(-10px);
+}
+
+/* ── Signal Meter ── */
+
+.rf-meter {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 0 48px 32px;
+}
+
+.rf-meter-label {
+  color: var(--ash-dim);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+}
+
+.rf-meter-bar {
+  display: flex;
+  gap: 3px;
+}
+
+.rf-segment {
+  background: rgba(240, 232, 218, 0.08);
+  flex: 1;
+  height: 6px;
+}
+
+.rf-segment--lit {
+  background: var(--signal-green);
+  box-shadow: 0 0 6px rgba(119, 207, 146, 0.5);
+}
+
+.rf-segment--peak {
+  animation: rf-peak-pulse 2s ease-in-out infinite;
+  background: #8ce0a5;
+}
+
+/* ── Article clear-signal overrides ── */
+
+.rf-article-root--clear::before { opacity: 0.35; }
+
+/* ── Chapter scroll offset ── */
+
+.rf-chapter { scroll-margin-top: 56px; }
+
+/* ── Keyframe Animations ── */
+
+@keyframes rf-ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes rf-rec-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+@keyframes rf-flicker {
+  0%, 100% { opacity: 0.5; }
+  33% { opacity: 0.45; }
+  66% { opacity: 0.55; }
+}
+
+@keyframes rf-grain-drift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, 2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes rf-peak-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(119, 207, 146, 0.5); }
+  50% { box-shadow: 0 0 14px rgba(119, 207, 146, 0.9); }
+}
+
 /* Responsive */
 
 @media (max-width: 980px) {
@@ -1634,6 +2103,7 @@ a { color: inherit; }
   .rf-email-wrap { grid-column: 2; }
   .rf-article-header { grid-template-columns: 1fr; }
   .rf-article-plot { min-height: 330px; max-width: 600px; }
+  .rf-chapternav { display: none; }
 }
 
 @media (max-width: 700px) {
@@ -1641,6 +2111,8 @@ a { color: inherit; }
   .rf-site-route { display: none; }
   .rf-site-nav a { padding: 8px 7px; }
   .rf-site-nav a:first-child { display: none; }
+  .rf-ticker-wrap { display: none; }
+  .rf-meter { padding: 0 21px 24px; }
   .rf-dossier-hero { gap: 42px; padding: 70px 21px 62px; }
   .rf-hero-title > span { font-size: clamp(62px, 17vw, 76px); }
   .rf-hero-title em { font-size: clamp(42px, 13vw, 63px); margin-left: 13px; }
@@ -1675,6 +2147,45 @@ a { color: inherit; }
   .rf-subscribe { gap: 26px; grid-template-columns: 1fr; min-height: 0; padding: 68px 21px; }
   .rf-subscribe-mark { font-size: 100px; }
   .rf-email-wrap { grid-column: auto; }
+  .rf-footer { padding: 36px 21px 42px; }
+  .rf-footer-grid { gap: 24px; grid-template-columns: 1fr; }
+  .rf-footer-signal { align-items: flex-start; }
+  .rf-footer-contact { align-items: flex-start; }
+  .rf-reader-site-header { grid-template-columns: 1fr auto; }
+  .rf-reader-back { padding-right: 0; }
+  .rf-article { padding-top: 55px; }
+  .rf-article-header { gap: 43px; padding: 0 21px; }
+  .rf-article-title { font-size: clamp(44px, 13vw, 64px); }
+  .rf-article-pull { font-size: 17px; }
+  .rf-article-plot { min-height: 265px; }
+  .rf-article-plot-number { font-size: 170px; }
+  .rf-reading-layout { gap: 30px; grid-template-columns: 1fr; margin-top: 63px; padding: 0 21px; }
+  .rf-reading-rail { align-items: center; border-left: 0; border-top: 1px solid var(--line); display: flex; gap: 17px; padding: 13px 0 0; position: static; }
+  .rf-reading-rail > div { display: flex; gap: 6px; margin: 0; }
+  .rf-reading-rail-rule,
+  .rf-reading-rail p { display: none; }
+  .rf-article-body { font-size: 18px; }
+  .rf-article-nav { grid-template-columns: 1fr 1fr; padding: 0 21px; }
+  .rf-article-nav a { min-height: 120px; }
+  .rf-nav-back { display: none; }
+  .rf-nav-next { padding-left: 16px !important; }
+  .rf-nav-prev strong,
+  .rf-nav-next strong { font-size: 16px; }
+}
+
+@media (max-width: 390px) {
+  .rf-hero-title > span { font-size: 62px; }
+  .rf-hero-title em { font-size: 40px; }
+  .rf-featured-file-copy h2 { font-size: 16px; }
+  .rf-case-index-list { grid-template-columns: 1fr; }
+  .rf-article-meta { gap: 9px; }
+  .rf-article-meta span + span::before { margin-right: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  .rf-footer-signal { align-items: flex-start; }
   .rf-reader-site-header { grid-template-columns: 1fr auto; }
   .rf-reader-back { padding-right: 0; }
   .rf-article { padding-top: 55px; }

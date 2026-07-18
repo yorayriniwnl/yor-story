@@ -6,6 +6,14 @@ import { CHAPTERS, PAGE_ORDER, chapterColorVar, romanNumeral } from '../../compo
 import { EssayCard } from '../../components/reflections/EssayCard';
 import { EmailCapture } from '../../components/reflections/EmailCapture';
 import { SearchWidget } from '../../components/reflections/SearchWidget';
+import { SignalBoot } from '../../components/reflections/SignalBoot';
+import { BroadcastNoise } from '../../components/reflections/BroadcastNoise';
+import { OnAirTicker } from '../../components/reflections/OnAirTicker';
+import { AmbientVignette } from '../../components/reflections/AmbientVignette';
+import { ChapterNav } from '../../components/reflections/ChapterNav';
+import { SignalMeter } from '../../components/reflections/SignalMeter';
+import { ScrambleText } from '../../components/reflections/ScrambleText';
+import SiteFooter from '../../components/reflections/SiteFooter';
 
 const TOTAL_CHAPTERS = 52;
 
@@ -29,9 +37,16 @@ export default function ReflectionsPage() {
     essays: byChapter[number] ?? [],
   })).filter(({ essays }) => essays.length > 0);
   const openChapters = chapterEntries.length;
+  const chaptersWithEssays = chapterEntries.map(({ number }) => number);
 
   return (
     <div className="rf-root rf-index-root">
+      <SignalBoot />
+      <BroadcastNoise />
+      <OnAirTicker />
+      <AmbientVignette />
+      <ChapterNav chaptersWithEssays={chaptersWithEssays} />
+
       <header className="rf-site-header">
         <Link href="/reflections" className="rf-wordmark" aria-label="Reflections archive home">
           YR<span>.</span>
@@ -116,6 +131,8 @@ export default function ReflectionsPage() {
           <div><strong>{latest ? `W${String(latest.week).padStart(2, '0')}` : '--'}</strong><span>CURRENT RECORD</span></div>
         </section>
 
+        <SignalMeter published={all.length} total={TOTAL_CHAPTERS} />
+
         <section className="rf-case-index" aria-labelledby="case-index-title">
           <div className="rf-case-index-heading">
             <p className="rf-kicker"><span /> CHAPTER INDEX</p>
@@ -157,13 +174,14 @@ export default function ReflectionsPage() {
               <section
                 key={number}
                 id={`chapter-${number}`}
+                data-chapter={number}
                 className={`rf-chapter rf-chapter--${chapter?.color ?? 'red'}`}
               >
                 <header className="rf-chapter-head">
                   <span className="rf-chapter-numeral" aria-hidden="true">{romanNumeral(number)}</span>
                   <div className="rf-chapter-meta">
                     <p className="rf-chapter-label">CHAPTER {romanNumeral(number)} / {String(essays.length).padStart(2, '0')} OPEN FILE{essays.length === 1 ? '' : 'S'}</p>
-                    <h3 className="rf-chapter-title">{chapter?.title}</h3>
+                    <ScrambleText as="h3" text={chapter?.title ?? ''} className="rf-chapter-title" trigger="view" duration={600} />
                     <p className="rf-chapter-sub">{chapter?.sub}</p>
                   </div>
                 </header>
@@ -184,6 +202,8 @@ export default function ReflectionsPage() {
         </div>
         <EmailCapture label="No noise. Just the next reflection." />
       </section>
+
+      <SiteFooter />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { Reflection } from '../../lib/reflections';
 import { CHAPTERS, chapterColorVar, romanNumeral } from './chapters';
+import { useMagnetic } from './useMagnetic';
 
 interface EssayCardProps {
   reflection: Reflection;
@@ -28,9 +29,11 @@ export function EssayCard({ reflection }: EssayCardProps) {
   const colorVar = chapterColorVar(reflection.chapter);
   const week = String(reflection.week).padStart(2, '0');
   const posterVariant = getPosterVariant(reflection.slug);
+  const magnetRef = useMagnetic<HTMLAnchorElement>({ strength: 5, ease: 0.1 });
 
   return (
     <Link
+      ref={magnetRef}
       href={`/reflections/${reflection.slug}`}
       className="rf-card"
       data-week={week}

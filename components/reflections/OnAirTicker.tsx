@@ -2,19 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useMotionAllowed } from './useFX';
+import { CHAPTERS } from './chapters';
 
 const ITEMS = [
   'YOR AYRIN // PRIVATE FREQUENCY',
-  '52 TRANSMISSIONS // ONGOING',
-  'FAITH, MANUFACTURED',
-  'INHERITED DAMAGE',
-  'THE BODY ISN\'T THE SIN',
-  'WHAT WE CALL LOVE',
-  'TILL PAPERWORK DO US PART',
-  'LOYALTY, NO CONTRACT',
-  'BORROWED BORDERS',
-  'BUILT TO BE REPLACED',
-  'UNFINISHED BUSINESS',
+  'EVERY FRIDAY // NEW TRANSMISSION',
+  ...Object.values(CHAPTERS).map(ch => ch.title.toUpperCase()),
   'SIGNAL ACTIVE // STAND BY',
 ];
 

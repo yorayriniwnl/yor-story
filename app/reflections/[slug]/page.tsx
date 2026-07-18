@@ -10,6 +10,10 @@ import {
   getChapterNeighbors,
 } from '../../../lib/reflections';
 import { CHAPTERS, chapterColorVar, romanNumeral } from '../../../components/reflections/chapters';
+import { BroadcastNoise } from '../../../components/reflections/BroadcastNoise';
+import { OnAirTicker } from '../../../components/reflections/OnAirTicker';
+import { ReadingProgress } from '../../../components/reflections/ReadingProgress';
+import SiteFooter from '../../../components/reflections/SiteFooter';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -57,12 +61,16 @@ export default async function ReflectionPage({ params }: Props) {
   const chapter = CHAPTERS[reflection.chapter];
   const colorVar = chapterColorVar(reflection.chapter);
   const week = String(reflection.week).padStart(2, '0');
+  const isClear = reflection.signal === 'clear';
 
   return (
     <div
-      className="rf-root rf-reader-root"
+      className={`rf-root rf-reader-root${isClear ? ' rf-article-root--clear' : ''}`}
       style={{ '--case-accent': colorVar } as CSSProperties}
     >
+      <BroadcastNoise intensity={isClear ? 'clear' : 'full'} />
+      <OnAirTicker interference={!isClear} />
+      <ReadingProgress />
       <header className="rf-site-header rf-reader-site-header">
         <Link href="/reflections" className="rf-wordmark" aria-label="Back to Reflections archive">
           YR<span>.</span>
@@ -150,6 +158,8 @@ export default async function ReflectionPage({ params }: Props) {
           </Link>
         )}
       </nav>
+
+      <SiteFooter />
     </div>
   );
 }
