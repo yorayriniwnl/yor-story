@@ -18,6 +18,54 @@ export const CHAPTERS: Record<number, ChapterMeta> = {
     sub: 'The story begins here. Who is Yor Ayrin and why does any of this matter.',
     color: 'red',
   },
+  2: {
+    numeral: 'II',
+    title: 'Origins',
+    sub: 'Early days, first games, and the foundation of a digital identity.',
+    color: 'cyan',
+  },
+  3: {
+    numeral: 'III',
+    title: 'The Climb',
+    sub: 'Chasing the elusive global elite and the struggles of competitive gaming.',
+    color: 'red',
+  },
+  4: {
+    numeral: 'IV',
+    title: 'Temptation',
+    sub: 'Shortcuts, frustration, and the allure of cheating.',
+    color: 'cyan',
+  },
+  5: {
+    numeral: 'V',
+    title: 'The Fall',
+    sub: 'Faceit ban, loss of community, and facing the consequences.',
+    color: 'red',
+  },
+  6: {
+    numeral: 'VI',
+    title: 'Realizations',
+    sub: 'Mental health, personal growth, and taking responsibility.',
+    color: 'cyan',
+  },
+  7: {
+    numeral: 'VII',
+    title: 'Redirection',
+    sub: 'Channeling ambition from games to real-world development.',
+    color: 'red',
+  },
+  8: {
+    numeral: 'VIII',
+    title: 'Connections',
+    sub: 'College life, building startups, and finding genuine relationships.',
+    color: 'cyan',
+  },
+  9: {
+    numeral: 'IX',
+    title: 'The Future',
+    sub: 'Looking ahead: Yor Zenith, Yor Stores, and the legacy to build.',
+    color: 'red',
+  },
 };
 
 /** Render order for the index page. Matches numeric chapter order. */

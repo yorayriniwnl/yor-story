@@ -24,7 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <nav style={{ padding: '1rem', textAlign: 'center', borderBottom: '1px solid #333' }}>
+          <a href="/" style={{ marginRight: '1rem' }}>Home</a>
+          <a href="/reflections">Reflections</a>
+        </nav>
+        {children}
+      </body>
     </html>
   );
 }

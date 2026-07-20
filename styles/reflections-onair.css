@@ -124,6 +124,11 @@ a { color: inherit; }
   display: block;
 }
 
+.rf-footer-overview {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(18px, 1.8vw, 30px);
+}
+
 .rf-footer-label {
   color: var(--ash-dim);
   font-family: var(--font-mono);

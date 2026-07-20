@@ -25,6 +25,9 @@ export const metadata: Metadata = {
     description: '52 chapters. 52 weeks. Every Friday. Life stories, reflections, and everything in between.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/reflections',
+  },
 };
 
 export default function ReflectionsPage() {

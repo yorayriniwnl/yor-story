@@ -7,7 +7,7 @@
 ## What's in this package
 
 ```
-content/reflections/         52 .md files (4 published, 47 stubs, 1 draft w/ real copy)
+content/reflections/         53 .md files (1 published, 51 drafts, 1 unplaced draft)
 lib/reflections.ts           Data layer — reads MDX, filters drafts, derives word count
 components/reflections/
   chapters.ts                Single source of truth for chapter metadata
@@ -104,10 +104,7 @@ The article page in this package already does this correctly via
 ## OG image note
 
 OG images use `image/png`, not SVG — social platforms render PNG reliably.
-The `CHAPTER_COLOR_MAP` in `opengraph-image.tsx` has all 9 chapters hardcoded
-with their exact hex values. If you rename a chapter's color assignment in
-`chapters.ts`, update the map in the OG file too — it is intentionally a
-separate constant so there are zero `undefined` fallbacks at generation time.
+The background color uses a red/cyan ternary derived from the chapter metadata. If you add new colors, update the OG generation logic to match.
 
 ---
 
