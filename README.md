@@ -1,4 +1,25 @@
-# Reflections — Drop-in Integration Guide
+# YOR // Reflections — Drop-in Integration Guide
+
+This repository contains the reflections archive and its editorial broadcast surface. It is styled as a YOR private field dossier: a black/graphite reading surface with crimson signal accents, chapter navigation, and explicit draft gating.
+
+## Evidence boundary
+
+| Surface | Status | Evidence boundary |
+| --- | --- | --- |
+| Next.js reflections routes, published/draft filtering, chapter navigation, and sitemap source | VERIFIED | Checked-in App Router and data-layer source define the route behavior. |
+| YOR visual framework | VERIFIED | `npm run design:check` checks the canonical palette and field gradient. |
+| Published essay content | REPORTED | Content status comes from frontmatter; draft files remain sealed from the public index. |
+| Email capture / Resend delivery | EXPERIMENTAL | Requires configured Resend credentials and an independently verified provider. |
+| Hosted deployment, canonical URL, and social previews | UNVERIFIED | Local metadata is present; live headers and provider behavior still need deployment checks. |
+| Full 52-week publication program | PLANNED | The archive exposes the current record without implying future essays exist. |
+
+## Visual contract
+
+- Void `#000000`, graphite `#050505`, crimson `#e84b4b`, deep crimson `#671515`
+- Signal `#ff8a7f`, warm white `#f5eaea`, muted `#c4c4c4`
+- Field gradient `#671515 → #8c1616 → #2a0505`
+
+Run `npm run design:check` before changing the visual system. The package-specific integration notes below explain how reflections are mounted and published.
 
 **ON AIR broadcast aesthetic. 52 weeks. 9 chapters. Draft-gated.**
 

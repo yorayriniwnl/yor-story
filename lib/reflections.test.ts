@@ -15,7 +15,7 @@ vi.mock('fs', () => {
     existsSync: () => true,
     readdirSync: () => Object.keys(files),
     readFileSync: (p: string) => {
-      const name = p.split('/').pop()!;
+      const name = p.split(/[\\/]/).pop()!;
       if (!(name in files)) throw new Error(`ENOENT (fixture): ${name}`);
       return files[name];
     },

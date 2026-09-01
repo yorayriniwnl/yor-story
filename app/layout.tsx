@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://yorayriniwnl.vercel.app'
   ),
-  title: {
-    default: 'Reflections // Yor Ayrin',
-    template: '%s // Reflections',
+    title: {
+    default: 'YOR // Reflections',
+    template: '%s // YOR Reflections',
   },
   description:
     '52 chapters. 52 weeks. Every Friday. A personal essay project by Yor Ayrin.',

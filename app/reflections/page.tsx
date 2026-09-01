@@ -18,10 +18,10 @@ import SiteFooter from '../../components/reflections/SiteFooter';
 const TOTAL_CHAPTERS = 52;
 
 export const metadata: Metadata = {
-  title: 'Reflections // Yor Ayrin',
+  title: 'YOR // Reflections',
   description: '52 chapters. 52 weeks. Every Friday. A personal essay project by Yor Ayrin.',
   openGraph: {
-    title: 'Reflections // Yor Ayrin',
+    title: 'YOR // Reflections',
     description: '52 chapters. 52 weeks. Every Friday. Life stories, reflections, and everything in between.',
     type: 'website',
   },

@@ -5,20 +5,20 @@
 
 :root {
   color-scheme: dark;
-  --rec-red: #e5232b;
-  --carrier-cyan: #9564ff;
-  --amber: #d9ad5d;
-  --rose: #ff5d70;
-  --wine: #611b2a;
-  --signal-green: #77cf92;
-  --ash: #f0e8da;
-  --ash-dim: #aaa092;
-  --ink: #090a09;
-  --ink-raised: #111110;
-  --ink-soft: #171512;
-  --line: rgba(240, 232, 218, 0.14);
-  --line-soft: rgba(240, 232, 218, 0.075);
-  --red-line: rgba(229, 35, 43, 0.42);
+  --rec-red: #e84b4b;
+  --carrier-cyan: #ff8a7f;
+  --amber: #ff8a7f;
+  --rose: #ff8a7f;
+  --wine: #671515;
+  --signal-green: #f5eaea;
+  --ash: #f5eaea;
+  --ash-dim: #c4c4c4;
+  --ink: #000000;
+  --ink-raised: #050505;
+  --ink-soft: #0d0d0d;
+  --line: rgba(245, 234, 234, 0.16);
+  --line-soft: rgba(245, 234, 234, 0.075);
+  --red-line: rgba(232, 75, 75, 0.42);
   --font-display: 'Bebas Neue', Impact, sans-serif;
   --font-serif: 'Fraunces Variable', Georgia, serif;
   --font-mono: 'JetBrains Mono Variable', 'Courier New', monospace;
@@ -2344,5 +2344,152 @@ a { color: inherit; }
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* YOR // Visual Framework Lock */
+:root {
+  --yor-void: #000000;
+  --yor-graphite: #050505;
+  --yor-crimson: #e84b4b;
+  --yor-deep-crimson: #671515;
+  --yor-signal: #ff8a7f;
+  --yor-warm-white: #f5eaea;
+  --yor-muted: #c4c4c4;
+  --yor-field: linear-gradient(135deg, #671515, #8c1616, #2a0505);
+}
+
+html,
+body {
+  background-color: var(--yor-void);
+  color: var(--yor-warm-white);
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(232, 75, 75, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 75, 75, 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+body::before {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 0.5px, transparent 0.5px);
+  background-size: 5px 5px;
+  content: '';
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+}
+
+.rf-site-header,
+.rf-hero-board,
+.rf-featured-file,
+.rf-case-index-item,
+.rf-card,
+.rf-subscribe,
+.rf-article-plot {
+  border-color: rgba(245, 234, 234, 0.18);
+}
+
+.rf-site-header,
+.rf-hero-board,
+.rf-featured-file,
+.rf-case-index-item--open,
+.rf-card,
+.rf-subscribe,
+.rf-article-plot {
+  background: linear-gradient(145deg, rgba(5, 5, 5, 0.98), rgba(42, 5, 5, 0.72));
+}
+
+.rf-site-header,
+.rf-hero-board,
+.rf-featured-file,
+.rf-case-index-item,
+.rf-card,
+.rf-subscribe,
+.rf-article-plot,
+.rf-button,
+.rf-search-input,
+.rf-email-input,
+.rf-email-button {
+  border-radius: 0;
+}
+
+.rf-wordmark,
+.rf-footer-brand,
+.rf-hero-title > span,
+.rf-article-title,
+.rf-chapter-title,
+.rf-subscribe h2 {
+  color: var(--yor-warm-white);
+}
+
+.rf-wordmark span,
+.rf-kicker,
+.rf-site-route,
+.rf-site-nav a:hover,
+.rf-footer-links a:hover,
+.rf-footer-contact a:hover,
+.rf-case-index-item--open .rf-case-index-number,
+.rf-chapter--red .rf-chapter-label,
+.rf-chapter--red .rf-chapter-numeral,
+.rf-featured-file-stamp {
+  color: var(--yor-signal);
+}
+
+.rf-button--primary,
+.rf-email-button {
+  background: var(--yor-crimson);
+  border-color: var(--yor-crimson);
+  color: var(--yor-void);
+}
+
+.rf-button--primary:hover,
+.rf-email-button:hover {
+  background: var(--yor-signal);
+  border-color: var(--yor-signal);
+  color: var(--yor-void);
+}
+
+.rf-button--secondary,
+.rf-search-input,
+.rf-email-input {
+  background: var(--yor-graphite);
+  border-color: rgba(255, 138, 127, 0.34);
+  color: var(--yor-warm-white);
+}
+
+.rf-button--secondary:hover,
+.rf-search-input:focus,
+.rf-email-input:focus {
+  border-color: var(--yor-signal);
+}
+
+.rf-hero-summary,
+.rf-hero-action-note,
+.rf-archive-heading > p,
+.rf-chapter-sub,
+.rf-card-excerpt,
+.rf-footer-tagline,
+.rf-footer-label,
+.rf-footer-contact-kind {
+  color: var(--yor-muted);
+}
+
+.rf-hero-board::before,
+.rf-featured-file::before,
+.rf-card::before,
+.rf-subscribe::before {
+  background: var(--yor-field);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
   }
 }
