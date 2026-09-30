@@ -59,7 +59,7 @@ styles/reflections-onair.css All ON AIR tokens + component styles
 ## Install dependencies
 
 ```bash
-npm install gray-matter react-markdown remark-gfm
+npm install react-markdown remark-gfm
 npm install @fontsource/bebas-neue @fontsource-variable/fraunces @fontsource-variable/jetbrains-mono
 ```
 
@@ -113,12 +113,9 @@ so only published essays generate static pages — draft slugs 404.
 
 ---
 
-## Canonical URL bug (existing site issue)
+## Canonical URL handling
 
-Every page currently declares the homepage as its canonical URL.
-The fix is per-page `alternates.canonical` in `generateMetadata`.
-The article page in this package already does this correctly via
-`NEXT_PUBLIC_SITE_URL`. Apply the same pattern to other pages.
+The reflections index declares `/reflections` as its canonical route, and each published article emits its own canonical URL from `NEXT_PUBLIC_SITE_URL`. Keep `NEXT_PUBLIC_SITE_URL` aligned with the actual production origin before deployment so canonical, sitemap, and Open Graph URLs resolve to the same site.
 
 ---
 

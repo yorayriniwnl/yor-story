@@ -9,3 +9,6 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 .vscode
+page-tall.png
+page-mobile-tall.png
+root-desktop.png

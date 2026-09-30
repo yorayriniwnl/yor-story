@@ -1,8 +1,47 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
 import { CHAPTERS } from '../components/reflections/chapters';
 const REFLECTIONS_DIR = path.join(process.cwd(), 'content', 'reflections');
+
+type FrontmatterValue = string | number | boolean | string[];
+
+function parseFrontmatterValue(raw: string): FrontmatterValue {
+  const value = raw.trim();
+  if (value.startsWith('[')) {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed) || !parsed.every(item => typeof item === 'string')) {
+      throw new Error('[reflections] frontmatter arrays must contain strings only.');
+    }
+    return parsed;
+  }
+  if (value.startsWith('"') && value.endsWith('"')) return JSON.parse(value);
+  if (value.startsWith("'") && value.endsWith("'")) return value.slice(1, -1);
+  if (/^-?\d+$/.test(value)) return Number(value);
+  if (value === 'true' || value === 'false') return value === 'true';
+  return value;
+}
+
+function parseFrontmatterDocument(raw: string): { data: Record<string, FrontmatterValue>; content: string } {
+  const normalized = raw.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+  if (!normalized.startsWith('---\n')) {
+    throw new Error('[reflections] markdown file is missing the opening frontmatter delimiter.');
+  }
+
+  const end = normalized.indexOf('\n---\n', 4);
+  if (end < 0) throw new Error('[reflections] markdown file is missing the closing frontmatter delimiter.');
+
+  const data: Record<string, FrontmatterValue> = {};
+  for (const line of normalized.slice(4, end).split('\n')) {
+    if (!line.trim()) continue;
+    const separator = line.indexOf(':');
+    if (separator <= 0) throw new Error(`[reflections] invalid frontmatter line: ${line}`);
+    const key = line.slice(0, separator).trim();
+    const value = line.slice(separator + 1);
+    data[key] = parseFrontmatterValue(value);
+  }
+
+  return { data, content: normalized.slice(end + 5) };
+}
 
 export interface ReflectionFrontmatter {
   title: string;
@@ -51,9 +90,9 @@ function parseFile(filename: string): Reflection | null {
 
   const fullPath = path.join(REFLECTIONS_DIR, filename);
   const raw = fs.readFileSync(fullPath, 'utf8');
-  const { data, content } = matter(raw);
+  const { data, content } = parseFrontmatterDocument(raw);
 
-  const fm = data as ReflectionFrontmatter;
+  const fm = data as unknown as ReflectionFrontmatter;
   const wordCount = deriveWordCount(content);
   const readTime = deriveReadTime(wordCount);
   const chapter = Number(fm.chapter) || 0;
