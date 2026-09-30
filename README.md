@@ -59,7 +59,7 @@ styles/reflections-onair.css All ON AIR tokens + component styles
 ## Install dependencies
 
 ```bash
-npm install gray-matter react-markdown remark-gfm
+npm install react-markdown remark-gfm
 npm install @fontsource/bebas-neue @fontsource-variable/fraunces @fontsource-variable/jetbrains-mono
 ```
 
