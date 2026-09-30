@@ -25,9 +25,7 @@ jobs:
           node-version: "22"
           cache: npm
       - name: Regenerate lockfile
-        run: |
-          npm install --package-lock-only
-          npm audit fix --package-lock-only
+        run: npm install --package-lock-only
       - name: Install validated tree
         run: npm ci
       - name: Production dependency audit
