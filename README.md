@@ -12,6 +12,23 @@
 
 This repository contains the reflections archive and its editorial broadcast surface. It is styled as a YOR private field dossier: a black/graphite reading surface with crimson signal accents, chapter navigation, and explicit draft gating.
 
+<!-- YOR REDLINE / EXPERIENCE V2 -->
+
+<a id="system-map"></a>
+## System map
+
+<div align="center"><picture><source media="(max-width: 600px)" srcset="docs/yor-redline-system-mobile.svg"/><img src="docs/yor-redline-system.svg" width="100%" alt="Editorial reflections archive: Author an essay to Apply draft gate to Render chapters to Publish and index"/></picture></div>
+
+| Project signal | Documented scope |
+| :--- | :--- |
+| **Current maturity** | INTEGRATION PACKAGE |
+| **Technical focus** | Next.js editorial routes, publishing status gates, chapter navigation, and sitemap paths. |
+| **Evidence boundary** | Draft content is intentionally separated from published output; not every route is public. |
+
+**Navigate:** [Evidence boundary](#evidence-boundary) · [Visual contract](#visual-contract) · [What's in this package](#whats-in-this-package) · [Install dependencies](#install-dependencies) · [Drop files into your project](#drop-files-into-your-project) · [Sitemap / nav](#sitemap--nav) · [Canonical URL handling](#canonical-url-handling)
+
+<!-- END YOR REDLINE / EXPERIENCE V2 -->
+
 ## Evidence boundary
 
 | Surface | Status | Evidence boundary |
