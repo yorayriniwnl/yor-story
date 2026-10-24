@@ -1,3 +1,13 @@
+<!-- YOR REDLINE / README COVER V1 -->
+<div align="center">
+
+![yor-story | YOR REDLINE](docs/yor-redline-cover.svg)
+
+<sub><strong>YOR / PROJECT DOSSIER</strong> · <a href="https://github.com/yorayriniwnl">GitHub</a> · <a href="https://yorayriniwnl.in">Portfolio</a></sub>
+
+</div>
+<!-- END YOR REDLINE -->
+
 # YOR // Reflections — Drop-in Integration Guide
 
 This repository contains the reflections archive and its editorial broadcast surface. It is styled as a YOR private field dossier: a black/graphite reading surface with crimson signal accents, chapter navigation, and explicit draft gating.
